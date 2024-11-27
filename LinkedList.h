@@ -1,8 +1,9 @@
 ﻿// LinkedList.h : Include file for standard system include files,
 // or project specific include files.
 
-#pragma once
+#ifndef LINKED_LIST_H
+#define LINKED_LIST_H
 
 #include <iostream>
 
-// TODO: Reference additional headers your program requires here.
+#endif // !LINKED_LIST_H
