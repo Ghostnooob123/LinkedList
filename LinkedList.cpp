@@ -1,33 +1,35 @@
 ﻿#include "LinkedList.h"
 
+template<typename T>
 struct Node {
-	int value;
+	T value;
 	Node* nextPtr;
 
-	Node(int newValue) {
+	Node(T newValue) {
 		this->value = newValue;
 		this->nextPtr = nullptr;
 	}
 };
 
+template<typename T>
 class LinkedList {
 public:
 	LinkedList() {
 		this->head = nullptr;
 	}
 	~LinkedList() {
-		Node* currNode = this->head;
+		Node<T>* currNode = this->head;
 
 		while (currNode->nextPtr != nullptr)
 		{
-			Node* tempNode = currNode->nextPtr;
+			Node<T>* tempNode = currNode->nextPtr;
 			delete currNode;
 			currNode = tempNode;
 		}
 	}
 
-	void addFront(int newElement) {
-		Node* newNode = new Node(newElement);
+	void addFront(T newElement) {
+		Node<T>* newNode = new Node<T>(newElement);
 
 		if (this->head == nullptr)
 		{
@@ -35,7 +37,7 @@ public:
 		}
 		else
 		{
-			Node* tempNode = this->head;
+			Node<T>* tempNode = this->head;
 			while (tempNode->nextPtr != nullptr) {
 				tempNode = tempNode->nextPtr;
 			}
@@ -43,8 +45,8 @@ public:
 		}
 	}
 
-	void addBack(int newElement) {
-		Node* newNode = new Node(newElement);
+	void addBack(T newElement) {
+		Node<T>* newNode = new Node<T>(newElement);
 
 		if (this->head == nullptr)
 		{
@@ -52,7 +54,7 @@ public:
 		}
 		else
 		{
-			Node* tempNode = this->head;
+			Node<T>* tempNode = this->head;
 			this->head = newNode;
 
 			this->head->nextPtr = tempNode;
@@ -60,7 +62,7 @@ public:
 	}
 
 	void display() {
-		Node* currNode = this->head;
+		Node<T>* currNode = this->head;
 
 		while (currNode->nextPtr != nullptr)
 		{
@@ -71,12 +73,12 @@ public:
 		std::cout << currNode->value << '\n';
 	}
 private:
-	Node* head;
+	Node<T>* head;
 };
 
 int main()
 {
-	LinkedList list;
+	LinkedList<int> list;
 
 	list.addFront(1);
 	list.addFront(2);
@@ -85,6 +87,17 @@ int main()
 	list.addBack(10);
 	list.addBack(2);
 	list.addBack(0);
+
+	/*
+	// Example with another type because our LinkedList is generic.
+	list.addFront('c');
+	list.addFront('w');
+	list.addFront('1');
+
+	list.addBack('u');
+	list.addBack('0');
+	list.addBack('i');
+	*/
 
 	list.display();
 
