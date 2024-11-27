@@ -3,7 +3,7 @@
 template<typename T>
 struct Node {
 	T value;
-	Node* nextPtr;
+	std::shared_ptr<Node<T>> nextPtr;
 
 	Node(T newValue) {
 		this->value = newValue;
@@ -18,24 +18,10 @@ public:
 		this->head = nullptr;
 	}
 	~LinkedList() {
-		if (this->head == nullptr)
-		{
-			delete this->head;
-			this->head = nullptr;
-			return;
-		}
-
-		Node<T>* currNode = this->head;
-		while (currNode->nextPtr != nullptr)
-		{
-			Node<T>* tempNode = currNode->nextPtr;
-			delete currNode;
-			currNode = tempNode;
-		}
 	}
 
-	void addFront(T newElement) {
-		Node<T>* newNode = new Node<T>(newElement);
+	void addBack(T newElement) {
+		std::shared_ptr<Node<T>> newNode = std::make_shared<Node<T>>(newElement);
 
 		if (this->head == nullptr)
 		{
@@ -43,7 +29,7 @@ public:
 		}
 		else
 		{
-			Node<T>* tempNode = this->head;
+			std::shared_ptr<Node<T>> tempNode = this->head;
 			while (tempNode->nextPtr != nullptr) {
 				tempNode = tempNode->nextPtr;
 			}
@@ -51,8 +37,8 @@ public:
 		}
 	}
 
-	void addBack(T newElement) {
-		Node<T>* newNode = new Node<T>(newElement);
+	void addFront(T newElement) {
+		std::shared_ptr<Node<T>> newNode = std::make_shared<Node<T>>(newElement);
 
 		if (this->head == nullptr)
 		{
@@ -60,10 +46,23 @@ public:
 		}
 		else
 		{
-			Node<T>* tempNode = this->head;
+			std::shared_ptr<Node<T>> tempNode = this->head;
 			this->head = newNode;
 
 			this->head->nextPtr = tempNode;
+
+		}
+	}
+
+	void popFront() {
+		std::shared_ptr<Node<T>> tempNode = this->head;
+		this->head = tempNode->nextPtr;
+	}
+
+	void popBack() {
+		std::shared_ptr<Node<T>> tempNode = this->head;
+		while (this->head->nextPtr != nullptr) {
+			this->head = tempNode->nextPtr;
 		}
 	}
 
@@ -73,40 +72,44 @@ public:
 			return;
 		}
 
-		Node<T>* currNode = this->head;
+		std::shared_ptr<Node<T>> currNode = this->head;
 		while (currNode->nextPtr != nullptr)
 		{
-			std::cout << currNode->value << '\n';
+			std::cout << currNode->value << ' ';
 			currNode = currNode->nextPtr;
 		}
 
 		std::cout << currNode->value << '\n';
 	}
 private:
-	Node<T>* head;
+	std::shared_ptr<Node<T>> head;
 };
 
 int main()
 {
 	LinkedList<int> list;
 
-	list.addFront(1);
-	list.addFront(2);
-	list.addFront(15);
-
-	list.addBack(10);
+	list.addBack(1);
 	list.addBack(2);
-	list.addBack(0);
+	list.addBack(15);
+
+	list.addFront(10);
+	list.addFront(2);
+	list.addFront(0);
+
+	list.popFront();
+	//list.popBack();
 
 	/*
 	// Example with another type because our LinkedList is generic.
-	list.addFront('c');
-	list.addFront('w');
-	list.addFront('1');
 
 	list.addBack('u');
 	list.addBack('0');
 	list.addBack('i');
+
+	list.addFront('c');
+	list.addFront('w');
+	list.addFront('1');
 	*/
 
 	list.display();
