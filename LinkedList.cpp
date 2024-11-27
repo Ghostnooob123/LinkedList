@@ -3,7 +3,7 @@
 template<typename T>
 struct Node {
 	T value;
-	std::shared_ptr<Node<T>> nextPtr;
+	std::shared_ptr<Node> nextPtr;
 
 	Node(T newValue) {
 		this->value = newValue;
@@ -55,15 +55,34 @@ public:
 	}
 
 	void popFront() {
+		if (this->head == nullptr)
+		{
+			return;
+		}
+		if (this->head->nextPtr == nullptr) {
+			this->head = nullptr;
+			return;
+		}
+
 		std::shared_ptr<Node<T>> tempNode = this->head;
 		this->head = tempNode->nextPtr;
 	}
-
 	void popBack() {
-		std::shared_ptr<Node<T>> tempNode = this->head;
-		while (this->head->nextPtr != nullptr) {
-			this->head = tempNode->nextPtr;
+		if (this->head == nullptr)
+		{
+			return;
 		}
+		if (this->head->nextPtr == nullptr) {
+			this->head = nullptr;
+			return;
+		}
+
+		std::shared_ptr<Node<T>> tempNode = this->head;
+		while (tempNode->nextPtr->nextPtr != nullptr) {
+			tempNode = tempNode->nextPtr;
+		}
+
+		tempNode->nextPtr = nullptr;
 	}
 
 	void display() {
@@ -98,7 +117,7 @@ int main()
 	list.addFront(0);
 
 	list.popFront();
-	//list.popBack();
+	list.popBack();
 
 	/*
 	// Example with another type because our LinkedList is generic.
