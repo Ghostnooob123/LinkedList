@@ -18,8 +18,14 @@ public:
 		this->head = nullptr;
 	}
 	~LinkedList() {
-		Node<T>* currNode = this->head;
+		if (this->head == nullptr)
+		{
+			delete this->head;
+			this->head = nullptr;
+			return;
+		}
 
+		Node<T>* currNode = this->head;
 		while (currNode->nextPtr != nullptr)
 		{
 			Node<T>* tempNode = currNode->nextPtr;
@@ -62,8 +68,12 @@ public:
 	}
 
 	void display() {
-		Node<T>* currNode = this->head;
+		if (this->head == nullptr)
+		{
+			return;
+		}
 
+		Node<T>* currNode = this->head;
 		while (currNode->nextPtr != nullptr)
 		{
 			std::cout << currNode->value << '\n';
