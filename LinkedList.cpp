@@ -32,6 +32,7 @@ public:
 			delete currNode;
 			currNode = tempNode;
 		}
+		currNode = nullptr;
 	}
 
 	void addFront(T newElement) {
@@ -50,7 +51,6 @@ public:
 			tempNode->nextPtr = newNode;
 		}
 	}
-
 	void addBack(T newElement) {
 		Node<T>* newNode = new Node<T>(newElement);
 
@@ -67,6 +67,40 @@ public:
 		}
 	}
 
+	void popFront() {
+		if (this->head == nullptr)
+		{
+			return;
+		}
+		if (this->head->nextPtr == nullptr) {
+			delete this->head;
+			this->head = nullptr;
+			return;
+		}
+
+		Node<T>* tempNode = this->head;
+		this->head = tempNode->nextPtr;
+	}
+	void popBack() {
+		if (this->head == nullptr)
+		{
+			return;
+		}
+		if (this->head->nextPtr == nullptr) {
+			delete this->head;
+			this->head = nullptr;
+			return;
+		}
+
+		Node<T>* tempNode = this->head;
+		while (tempNode->nextPtr->nextPtr != nullptr) {
+			tempNode = tempNode->nextPtr;
+		}
+
+		delete tempNode->nextPtr;
+		tempNode->nextPtr = nullptr;
+	}
+
 	void display() {
 		if (this->head == nullptr)
 		{
@@ -76,7 +110,7 @@ public:
 		Node<T>* currNode = this->head;
 		while (currNode->nextPtr != nullptr)
 		{
-			std::cout << currNode->value << '\n';
+			std::cout << currNode->value << ' ';
 			currNode = currNode->nextPtr;
 		}
 
@@ -97,6 +131,9 @@ int main()
 	list.addBack(10);
 	list.addBack(2);
 	list.addBack(0);
+
+	list.popFront();
+	list.popBack();
 
 	/*
 	// Example with another type because our LinkedList is generic.
